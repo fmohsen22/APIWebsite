@@ -3,6 +3,6 @@ services:
     name: APIWebsite
     env: java
     region: oregon
-    buildCommand: "./mvnw clean package"  # Use ./gradlew build if using Gradle
-    startCommand: "java -jar out/artifacts/mosi_jar/mosi.jar"
+    buildCommand: "./mvnw clean package"  # Build the JAR file using Maven
+    startCommand: "java -jar target/mosi-0.0.1-SNAPSHOT.jar"  # Run the JAR file from the target directory
     plan: free
