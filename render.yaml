@@ -3,6 +3,9 @@ services:
     name: APIWebsite
     env: java
     region: oregon
-    buildCommand: "chmod +x mvnw && ./mvnw clean package"  # Make mvnw executable, then build
-    startCommand: "java -jar target/mosi-0.0.1-SNAPSHOT.jar"
+    buildCommand: "./mvnw clean package"  # Build the JAR file using Maven
+    startCommand: "java -jar target/mosi-0.0.1-SNAPSHOT.jar"  # Run the JAR file from the target directory
     plan: free
+    envVars:
+      - key: JAVA_HOME
+        value: "/opt/render/project/.java"
