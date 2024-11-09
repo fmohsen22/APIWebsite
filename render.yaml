@@ -1,8 +1,8 @@
 services:
   - type: web
     name: APIWebsite
-    env: docker
+    env: java
     region: oregon
-    dockerfilePath: ./Dockerfile
+    buildCommand: "./mvnw clean package"
+    startCommand: "java -jar target/mosi-0.0.1-SNAPSHOT.jar"  # Update with your JAR name
     plan: free
-
