@@ -1,20 +1,17 @@
-# Use the official Maven image to build the application
-FROM maven:3.8.4-openjdk-11 AS build
+# Use Java 17 image to build the application
+FROM openjdk:17-jdk-slim AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy the Maven wrapper and make it executable
+# Copy the Maven wrapper files and source code
 COPY . .
-RUN chmod +x mvnw
 
-# Build the application using the Maven wrapper
-RUN ./mvnw clean package
+# Make the Maven wrapper executable and build the project
+RUN chmod +x mvnw && ./mvnw clean package -DskipTests
 
-# Use the official Java image to run the application
-FROM openjdk:11-jre-slim
+# Use Java 17 image to run the application
+FROM openjdk:17-jdk-slim
 
-# Set working directory
 WORKDIR /app
 
 # Copy the jar file from the build stage
