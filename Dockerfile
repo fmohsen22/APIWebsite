@@ -1,15 +1,27 @@
-# Use an official OpenJDK runtime as the base image
-FROM maven:3.8.5-openjdk-17 AS build
+# Use the official Maven image to build the application
+FROM maven:3.8.4-openjdk-11 AS build
 
-# Copy the project files to the container
+# Set working directory
+WORKDIR /app
+
+# Copy the Maven wrapper and make it executable
 COPY . .
+RUN chmod +x mvnw
 
-# Make the Maven wrapper executable and build the project
-RUN mvnw clean package
+# Build the application using the Maven wrapper
+RUN ./mvnw clean package
 
+# Use the official Java image to run the application
+FROM openjdk:11-jre-slim
 
-From openjdk:17.0.1-jdk-slim
-COPY --from=build /target/demo-0.0.1-SNAPSHOT.jar demo.jar
+# Set working directory
+WORKDIR /app
+
+# Copy the jar file from the build stage
+COPY --from=build /app/target/mosi-0.0.1-SNAPSHOT.jar /app/app.jar
+
+# Expose the port the app runs on
 EXPOSE 8080
-# Set the command to run the JAR file
-CMD ["java", "-jar", "target/mosi-0.0.1-SNAPSHOT.jar"]
+
+# Run the jar file
+CMD ["java", "-jar", "/app/app.jar"]
