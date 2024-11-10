@@ -1,6 +1,7 @@
 package com.website.api.mosi;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -10,9 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api")
 public class TimeController {
 
-    @GetMapping("/api/time")
+    @GetMapping("/time")
     public Map<String, String> getCurrentTimes() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
@@ -23,4 +25,5 @@ public class TimeController {
 
         return times;
     }
+
 }
