@@ -13,9 +13,20 @@ public class ChatController {
 
     @PostMapping("/message")
     public ResponseEntity<Map<String, String>> receiveMessage(@RequestBody ChatMessage message) {
-        // For now, echo the received message back
+        // Get the message text sent by the user
+        String userText = message.getText();
 
-        String responseText =  message.getText();
+        // Prepare a response based on the user's message
+        String responseText = null;
+        if (userText.toLowerCase().contains("hello")) {
+            responseText = "Hello! How can I assist you today? 😊";
+        } else if (userText.toLowerCase().contains("price")) {
+            responseText = "Our service prices vary. Could you specify the service you're interested in?";
+        } else if (userText.toLowerCase().contains("appointment")) {
+            responseText = "You can book an appointment through our website's 'Time Booking' section!";
+        }
+
+
 
         // Create a map to hold the response JSON structure
         Map<String, String> response = new HashMap<>();
@@ -33,7 +44,7 @@ class ChatMessage {
 
     public String getText() {
         if (text==null){
-            text="Mosi is working on it 😁😋.";
+            text="Please write something.";
         }
         return text;
     }
