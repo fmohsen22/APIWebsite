@@ -1,5 +1,6 @@
 package com.website.api.mosi;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,7 @@ import java.util.Map;
 public class ChatController {
 
     @PostMapping("/message")
-    public ResponseEntity<String> receiveMessage(@RequestBody ChatMessage message) {
+    public ResponseEntity<Map<String, String>> receiveMessage(@RequestBody ChatMessage message) {
         // For now, echo the received message back
 
         String responseText =  message.getText();
@@ -20,7 +21,9 @@ public class ChatController {
         Map<String, String> response = new HashMap<>();
         response.put("reply", responseText);
 
-        return ResponseEntity.ok(String.valueOf(response));
+        // Return the map directly as JSON
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 }
 
