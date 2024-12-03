@@ -50,7 +50,7 @@ public class CarParkController {
         // Construct the JSON response
         Map<String, String> response = new HashMap<>();
         response.put("inf", String.format(
-                "Currently, 7 Maitland Pl Street has moderate traffic. %d Parking Slots are available near the %s shop.",
+                "Currently, %d Parking Slots are available near the %s shop.",
                 freeSlots,carParkResponse.getFacilityName()
         ));
 
