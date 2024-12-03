@@ -64,7 +64,7 @@ public class TrafficController {
 
         // Check for road closure
         if (isRoadClosure) {
-            return "The road near 7 Maitland Place is currently closed. Please use an alternate route.";
+            return "The road Columbia Way is currently closed. Please check the map.";
         }
 
         // Calculate the traffic percentage
@@ -73,11 +73,11 @@ public class TrafficController {
         // Determine traffic classification
         String trafficCondition;
         if (trafficPercentage >= 80) {
-            trafficCondition = "Smooth Traffic";
+            trafficCondition = "Smooth";
         } else if (trafficPercentage >= 50) {
-            trafficCondition = "Moderate Traffic";
+            trafficCondition = "Moderate";
         } else {
-            trafficCondition = "Heavy Traffic";
+            trafficCondition = "Heavy";
         }
 
         // Generate dynamic message
@@ -85,8 +85,8 @@ public class TrafficController {
                 "Traffic near 7 Maitland Place is currently %s with a speed of %d km/h. %s",
                 trafficCondition,
                 currentSpeed,
-                trafficCondition.equals("Heavy Traffic") ? "Expect significant delays." :
-                        trafficCondition.equals("Moderate Traffic") ? "You might experience slight delays." :
+                trafficCondition.equals("Heavy") ? "Expect significant delays." :
+                        trafficCondition.equals("Moderate") ? "You might experience slight delays." :
                                 "Traffic is flowing smoothly."
         );
     }
