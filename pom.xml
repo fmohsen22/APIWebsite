@@ -76,6 +76,12 @@
 			<version>20240303</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-docs</artifactId>
+			<version>v1-rev20230929-2.0.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

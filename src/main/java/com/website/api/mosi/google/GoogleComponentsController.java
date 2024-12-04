@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
-public class TreatmentsController {
+public class GoogleComponentsController {
 
     @GetMapping("/api/treatments")
     public Map<String, Object> getTreatments() {
@@ -30,5 +29,18 @@ public class TreatmentsController {
             throw new RuntimeException(e);
         }
         return response;
+    }
+
+    @GetMapping("/api/important_info")
+    public Map<String, Object> getImportantInfo() throws GeneralSecurityException, IOException {
+        Map<String, Object> response = new HashMap<>();
+
+        GoogleDocsService googleDocsService = new GoogleDocsService();
+        String documentText = googleDocsService.readDocumentText();
+
+        response.put("info", documentText);
+
+        return response;
+
     }
 }
