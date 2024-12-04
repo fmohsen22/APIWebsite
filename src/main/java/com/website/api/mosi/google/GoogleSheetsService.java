@@ -26,8 +26,12 @@ public class GoogleSheetsService {
     private Sheets sheetsService;
 
     public GoogleSheetsService() throws IOException, GeneralSecurityException {
+//        GoogleCredentials credentials = GoogleCredentials
+//                .fromStream(new FileInputStream("src/main/resources/envisage-443710-5eaaca6c210f.json"))
+//                .createScoped(List.of(SheetsScopes.SPREADSHEETS_READONLY));
+
         GoogleCredentials credentials = GoogleCredentials
-                .fromStream(new FileInputStream("src/main/resources/envisage-443710-5eaaca6c210f.json"))
+                .fromStream(new FileInputStream(System.getenv("GOOGLE_APPLICATION_CREDENTIALS")))
                 .createScoped(List.of(SheetsScopes.SPREADSHEETS_READONLY));
 
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
