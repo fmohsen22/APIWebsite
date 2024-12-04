@@ -39,8 +39,6 @@ public class GoogleComponentsController {
         String documentText = googleDocsService.readDocumentText();
 
         response.put("info", documentText);
-
         return response;
-
     }
 }
