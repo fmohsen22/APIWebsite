@@ -9,6 +9,7 @@ import com.google.api.services.sheets.v4.model.Spreadsheet;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.website.api.mosi.helper.CacheManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -63,6 +64,16 @@ public class GoogleSheetsService {
 
     // Method to merge all data into the desired JSON structure
     public JSONObject mergeAllPriceLists() throws IOException, GeneralSecurityException {
+        String cacheKey = "priceList"; // Unique cache key for the price list
+        String cachedData = CacheManager.get(cacheKey);
+
+        if (cachedData != null) {
+            // Return the cached data as a JSONObject
+            System.out.println("Serving price list from cache...");
+            return new JSONObject(cachedData);
+        }
+
+        // If not cached, fetch data from Google Sheets
         List<String> sheetNames = getSheetNames();
         JSONArray categories = new JSONArray();
 
