@@ -45,7 +45,7 @@ public class DropdownlistGenerator {
                 Treatments treatments = new Treatments();
                 treatments.setTreatment(detail.get(0).toString());
                 treatments.setPrice(Double.valueOf((String) detail.get(1)));
-                treatments.setDescripton(detail.get(2).toString());
+                treatments.setDescription(detail.get(2).toString());
                 treatments.setDuration(Integer.parseInt(detail.get(3).toString()));
 
                 treatmentsList.add(treatments);

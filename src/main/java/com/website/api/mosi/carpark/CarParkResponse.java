@@ -1,6 +1,7 @@
 package com.website.api.mosi.carpark;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class CarParkResponse {

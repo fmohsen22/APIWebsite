@@ -19,13 +19,15 @@ public class WebConfig {
                                 "http://localhost:8000",
                                 "http://localhost:63342",
                                 "http://127.0.0.1:8000",
-                                "https://fmohsen22.github.io")
-                        .allowedMethods("GET", "POST", "PUT");
+                                "https://fmohsen22.github.io",
+                                "https://localhost:8080") // Include HTTPS localhost
+                        .allowedMethods("GET", "POST", "PUT", "DELETE") // Allow DELETE if needed
+                        .allowedHeaders("*") // Allow all headers
+                        .allowCredentials(true); // Allow cookies if needed
             }
         };
     }
 
-    // Add this RestTemplate bean
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();

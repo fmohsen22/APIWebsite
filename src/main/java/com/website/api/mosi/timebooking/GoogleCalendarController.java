@@ -1,5 +1,10 @@
 package com.website.api.mosi.timebooking;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.website.api.mosi.helper.CsvReaderExample;
+import com.website.api.mosi.helper.CsvRecord;
+import com.website.api.mosi.helper.CsvWriterExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +15,9 @@ import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static com.website.api.mosi.helper.TimeManager.addMinutesToTime;
 import static com.website.api.mosi.helper.TimeManager.timeFormatter;
@@ -39,7 +46,13 @@ public class GoogleCalendarController {
     @PostMapping("/free-slots")
     public List<String> getFreeSlots(@RequestBody int weeksFromNow) {
         try {
-            return calendarFetcher.getFreeSlots(weeksFromNow);
+
+            List<String> response= calendarFetcher.getFreeSlots(weeksFromNow);
+            CsvWriterExample csvWriterExample = new CsvWriterExample();
+            csvWriterExample.writeToCsv("free-slots", Collections.singletonList(response));
+
+
+            return response;
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error fetching free slots: " + e.getMessage());
@@ -50,7 +63,34 @@ public class GoogleCalendarController {
 
     @GetMapping("/dropdown-list")
     public List<DropdownListObject> getDropdownList() {
-        return dropdownlistGenerator.getDropdownListObjects();
+
+        CsvReaderExample csvReader = new CsvReaderExample();
+
+        // Check if the function "dropdown-list" is available within the last 5 minutes
+        boolean isAvailable = csvReader.isFunctionAvailable("dropdown-list", 5);
+        List<DropdownListObject> dropdownListObjects = Collections.emptyList(); // Default to an empty list
+
+        if (!isAvailable) {
+            // Generate a new list if not available
+            dropdownListObjects = dropdownlistGenerator.getDropdownListObjects(); // Assuming this method generates the list
+            CsvWriterExample csvWriterExample = new CsvWriterExample();
+            csvWriterExample.writeToCsv("dropdown-list", Collections.singletonList(dropdownListObjects));
+        } else {
+            // Get the latest result for "dropdown-list" from the CSV file
+            Optional<CsvRecord> latestRecord = csvReader.getLatestResult("dropdown-list");
+            if (latestRecord.isPresent()) {
+                String json = latestRecord.get().getJson();
+                ObjectMapper objectMapper = new ObjectMapper();
+                try {
+                    // Convert JSON string to List<DropdownListObject>
+                    dropdownListObjects = objectMapper.readValue(json, new TypeReference<List<DropdownListObject>>() {});
+                } catch (Exception e) {
+                    System.err.println("Error parsing JSON: " + e.getMessage());
+                }
+            }
+        }
+
+        return dropdownListObjects;
     }
 
 
